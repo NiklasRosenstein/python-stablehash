@@ -1,0 +1,19 @@
+name: "Python"
+
+on:
+  push: { branches: [ "develop" ], tags: [ "*" ] }
+  pull_request: { branches: [ "develop" ] }
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: NiklasRosenstein/slap@gha/install/v1
+    - uses: actions/setup-python@v2
+      with: { python-version: "${{ matrix.python-version }}" }
+    - run: slap install --link --no-venv-check
+    - run: slap test
