@@ -29,3 +29,23 @@ Returns the digest of the hash as a bytes object.
 ### `stablehash.hexdigest()`
 
 Returns the digest of the hash as a string object.
+
+## Supported types
+
+The following types are supported:
+
+- `None`
+- `bool`
+- `int`
+- `float`
+- `str`
+- `bytes`
+- `tuple`
+- `list`
+- `set`
+- `frozenset`
+- `dict`
+- `@dataclass` objects
+- `datetime` objects (`datetime`, `date`, `time` and `timedelta`)
+- `uuid.UUID`
+- Picklable objects (e.g. those that implement `__getstate__()`)

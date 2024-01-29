@@ -2,7 +2,9 @@ import abc
 import struct
 from abc import ABC
 from dataclasses import fields, is_dataclass
+from datetime import date, datetime, time, timedelta
 from typing import TYPE_CHECKING, Any, Iterable
+from uuid import UUID
 
 if TYPE_CHECKING:
     from _typeshed import DataclassInstance
@@ -14,13 +16,14 @@ def fqn(x: type[Any]) -> str:
     return f"{x.__module__}.{x.__qualname__}"
 
 
-def tokenize(x: Any) -> Iterable[bytes]:
+def tokenize(x: Any, header: bool = True) -> Iterable[bytes]:
 
     # Produce an opening/ending token to indicate the type of the object being hashed. This is
     # to minimize the chances that consecutive hashes of multiple objects imitate the hash of a
     # single object (e.g. "abc" vs. "ab" + "c"), as well as encoding the actual type of the object.
-    yield fqn(type(x)).encode("utf8")
-    yield b"["
+    if header:
+        yield fqn(type(x)).encode("utf8")
+        yield b"["
 
     match x:
         case None:
@@ -51,12 +54,19 @@ def tokenize(x: Any) -> Iterable[bytes]:
             for field in fields(x):
                 yield from tokenize(field.name)
                 yield from tokenize(getattr(x, field.name))
+        case datetime() | date() | time():
+            yield from tokenize(x.isoformat(), header=False)
+        case timedelta():
+            yield from tokenize(x.total_seconds(), header=False)
+        case UUID():
+            yield from tokenize(x.int, header=False)
         case Picklable():
             yield from tokenize(x.__getstate__())
         case _:
             raise TypeError(f"object of type {fqn(type(x))} is not consistent-hashable")
 
-    yield b"]"
+    if header:
+        yield b"]"
 
 
 class Dataclass(DataclassInstance):
