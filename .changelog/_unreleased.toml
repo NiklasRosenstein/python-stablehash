@@ -1,5 +1,5 @@
 [[entries]]
 id = "db748a41-5d38-4f28-a26d-bea8f4d78858"
 type = "improvement"
-description = "Improve performance by ~65% by passing the `hashlib` Hasher object instead of using a generator to `tokenize()`"
+description = "Improve performance by ~60% by passing the `hashlib` Hasher object instead of using a generator to `tokenize()`"
 author = "niklas.rosenstein@helsing.ai"
