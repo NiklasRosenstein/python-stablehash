@@ -9,7 +9,6 @@ class MyDataclass:
     b: str
 
 
-
 def test__tokenize__dataclass() -> None:
     assert (
         b"".join(tokenize(MyDataclass(65, "2")))

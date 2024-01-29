@@ -22,7 +22,6 @@ class stablehash:
         if data is not _sentinel:
             self.update(data)
 
-
     def update(self, x: Any) -> None:
         """Update the hash with the specified object."""
 
