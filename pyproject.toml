@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "stablehash"
-version = "0.1.0"
+version = "0.1.1"
 description = "Stable hashing of Python data structures spanning invokations and platforms. "
 authors = ["Niklas Rosenstein <niklas.rosenstein@helsing.ai>"]
 license = "MIT"
