@@ -25,7 +25,7 @@ class stablehash:
     def update(self, x: Any) -> None:
         """Update the hash with the specified object."""
 
-        tokenize(self._hasher, x, True)
+        tokenize(self._hasher, x)
 
     def digest(self) -> bytes:
         """Return the digest of the objects hashed so far."""

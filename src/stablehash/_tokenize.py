@@ -16,7 +16,7 @@ def fqn(x: type[Any]) -> str:
     return f"{x.__module__}.{x.__qualname__}"
 
 
-def tokenize(hasher: "Hasher", x: Any, header: bool = True) -> None:
+def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
 
     # Produce an opening/ending token to indicate the type of the object being hashed. This is
     # to minimize the chances that consecutive hashes of multiple objects imitate the hash of a
@@ -44,26 +44,26 @@ def tokenize(hasher: "Hasher", x: Any, header: bool = True) -> None:
             hasher.update(x)
         case tuple() | list():
             for item in x:
-                tokenize(hasher, item, True)
+                tokenize(hasher, item)
         case set() | frozenset():
             for item in sorted(x):
-                tokenize(hasher, item, True)
+                tokenize(hasher, item)
         case dict():
             for key, value in x.items():
-                tokenize(hasher, key, True)
-                tokenize(hasher, value, True)
+                tokenize(hasher, key)
+                tokenize(hasher, value)
         case Dataclass():
             for field in fields(x):
-                tokenize(hasher, field.name, True)
-                tokenize(hasher, getattr(x, field.name), True)
+                tokenize(hasher, field.name)
+                tokenize(hasher, getattr(x, field.name))
         case datetime() | date() | time():
-            tokenize(hasher, x.isoformat(), False)
+            tokenize(hasher, x.isoformat(), header=False)
         case timedelta():
-            tokenize(hasher, x.total_seconds(), False)
+            tokenize(hasher, x.total_seconds(), header=False)
         case UUID():
-            tokenize(hasher, x.int, False)
+            tokenize(hasher, x.int, header=False)
         case Picklable():
-            tokenize(hasher, x.__getstate__(), True)
+            tokenize(hasher, x.__getstate__())
         case _:
             raise TypeError(f"object of type {fqn(type(x))} is not consistent-hashable")
 
