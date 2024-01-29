@@ -3,7 +3,7 @@ import struct
 from abc import ABC
 from dataclasses import fields, is_dataclass
 from datetime import date, datetime, time, timedelta
-from typing import TYPE_CHECKING, Any, Iterable
+from typing import TYPE_CHECKING, Any, Protocol
 from uuid import UUID
 
 if TYPE_CHECKING:
@@ -16,57 +16,59 @@ def fqn(x: type[Any]) -> str:
     return f"{x.__module__}.{x.__qualname__}"
 
 
-def tokenize(x: Any, header: bool = True) -> Iterable[bytes]:
+def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
 
     # Produce an opening/ending token to indicate the type of the object being hashed. This is
     # to minimize the chances that consecutive hashes of multiple objects imitate the hash of a
     # single object (e.g. "abc" vs. "ab" + "c"), as well as encoding the actual type of the object.
     if header:
-        yield fqn(type(x)).encode("utf8")
-        yield b"["
+        hasher.update(fqn(type(x)).encode("utf8"))
+        hasher.update(b"[")
 
     match x:
         case None:
-            yield b""
+            pass
         case bool():
-            yield b"1" if x else b"0"
+            hasher.update(b"1" if x else b"0")
         case int():
             bits = x.bit_length() // 8 + 1
-            yield x.to_bytes(bits, "little")
+            hasher.update(x.to_bytes(bits, "little"))
         case float():
-            yield struct.pack("f", x)
+            hasher.update(struct.pack("f", x))
         case str():
             # TODO(@niklas): Is there any way we can grab the actual in-memory representation of the string
             #   instead of encoding it? That should yield significant performance improvements. We could
             #   extracting the memory view of the string using the C API?..
-            yield x.encode("utf-8")
+            hasher.update(x.encode("utf-8"))
         case bytes():
-            yield x
+            hasher.update(x)
         case tuple() | list():
-            yield from (b for item in x for b in tokenize(item))
+            for item in x:
+                tokenize(hasher, item)
         case set() | frozenset():
-            yield from (b for item in sorted(x) for b in tokenize(item))
+            for item in sorted(x):
+                tokenize(hasher, item)
         case dict():
             for key, value in x.items():
-                yield from tokenize(key)
-                yield from tokenize(value)
+                tokenize(hasher, key)
+                tokenize(hasher, value)
         case Dataclass():
             for field in fields(x):
-                yield from tokenize(field.name)
-                yield from tokenize(getattr(x, field.name))
+                tokenize(hasher, field.name)
+                tokenize(hasher, getattr(x, field.name))
         case datetime() | date() | time():
-            yield from tokenize(x.isoformat(), header=False)
+            tokenize(hasher, x.isoformat(), header=False)
         case timedelta():
-            yield from tokenize(x.total_seconds(), header=False)
+            tokenize(hasher, x.total_seconds(), header=False)
         case UUID():
-            yield from tokenize(x.int, header=False)
+            tokenize(hasher, x.int, header=False)
         case Picklable():
-            yield from tokenize(x.__getstate__())
+            tokenize(hasher, x.__getstate__())
         case _:
             raise TypeError(f"object of type {fqn(type(x))} is not consistent-hashable")
 
     if header:
-        yield b"]"
+        hasher.update(b"]")
 
 
 class Dataclass(DataclassInstance):
@@ -84,3 +86,8 @@ class Picklable(ABC):
     @classmethod
     def __subclasshook__(cls, __subclass: type) -> bool:
         return hasattr(__subclass, "__getstate__")
+
+
+class Hasher(Protocol):
+
+    def update(self, __data: bytes) -> None: ...
