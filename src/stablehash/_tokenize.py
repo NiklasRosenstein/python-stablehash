@@ -51,7 +51,7 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             # a large complex structure for each item, which is why we don't want to hash the object twice. Instead,
             # we hash the object once, and then add the sorted hashes to the hasher.
 
-            item_hashes = []
+            item_hashes: list[bytes] = []
             for item in x:
                 item_hasher = hasher.copy()
                 tokenize(item_hasher, item)
@@ -100,5 +100,6 @@ class Picklable(ABC):
 
 
 class Hasher(Protocol):
-    def update(self, __data: bytes) -> None: ...
     def copy(self) -> "Hasher": ...
+    def digest(self) -> bytes: ...
+    def update(self, __data: bytes) -> None: ...
