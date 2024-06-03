@@ -25,8 +25,8 @@ def test__stablehash() -> None:
     assert stablehash({"key": "value"}, algorithm="md5").hexdigest() == "d5994850379366e314563ea555532052"
     assert stablehash([1, 2, 3], algorithm="md5").hexdigest() == "c8b541e613f5e7708f0553221e2725d5"
     assert stablehash((1, 2, 3), algorithm="md5").hexdigest() == "f1a8fe053f96bb01977d521912b3132f"
-    assert stablehash({1, 2, 3}, algorithm="md5").hexdigest() == "9c6723e0da429c60295de72138e044c3"
-    assert stablehash(frozenset({1, 2, 3}), algorithm="md5").hexdigest() == "ad8dc7fa75828154da48a62195f3d960"
+    assert stablehash({1, 2, 3}, algorithm="md5").hexdigest() == "10bf2edb0a4badb2aa27e29fff846f46"
+    assert stablehash(frozenset({1, 2, 3}), algorithm="md5").hexdigest() == "40fa72eac25be910504c3e8f60303501"
     assert stablehash(MyDataclass(65, "2"), algorithm="md5").hexdigest() == "f98412096cfd833d36960628f36abb78"
     assert stablehash(Picklable(65, "2"), algorithm="md5").hexdigest() == "4bfe8c9b9e4dc02f0e63632ef33f365f"
     assert stablehash(datetime(2021, 1, 1, 0, 0, 0), algorithm="md5").hexdigest() == "a6d637e693ec7994b48c21e18162f1bd"
@@ -43,3 +43,4 @@ def test__stablehash() -> None:
     )
     assert stablehash(int, algorithm="md5").hexdigest() == "21a85b46a16a64f9c58f5402c4c11bf1"
     assert stablehash(str, algorithm="md5").hexdigest() == "fc1830dca524be291dcda6dbca7bd509"
+    assert stablehash({int, str}, algorithm="md5").hexdigest() == "f4216c5b72f84c0e17bda6f365b99f52"

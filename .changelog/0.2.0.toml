@@ -1,0 +1,15 @@
+release-date = "2024-06-03"
+
+[[entries]]
+id = "cbb9bbb0-19f4-4a8e-92fb-e29966efe7d3"
+type = "fix"
+description = "No longer assume that elements in a set are orderable. This fix changes generated hashes for sets, hence this could be considered a breaking change."
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/python-stablehash/pull/6"
+
+[[entries]]
+id = "30d1b1a1-4631-41c1-99b5-7f81ffbd877f"
+type = "fix"
+description = "Fixed potential error when hasing a `type` object (unbound method object.__getstate__() needs an argument)"
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/python-stablehash/pull/6"
