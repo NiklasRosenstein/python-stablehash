@@ -1,0 +1,8 @@
+release-date = "2024-06-03"
+
+[[entries]]
+id = "cedefc31-4ddb-4615-a391-2e6fc1b0ed2c"
+type = "fix"
+description = "Add support for hasing type objects by their type FQN."
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/python-stablehash/pull/5"

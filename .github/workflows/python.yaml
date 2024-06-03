@@ -17,5 +17,6 @@ jobs:
     - run: pipx install pdm
     - run: pdm install
     - run: pdm run mypy .
+    - run: pdm run pytest
     - run: pdm run ruff check
     - run: pdm run ruff format --check

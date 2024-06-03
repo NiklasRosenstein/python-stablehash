@@ -1,6 +1,6 @@
 [project]
-name = "python-stablehash"
-version = "0.1.1"
+name = "stablehash"
+version = "0.1.2"
 description = "Stable hashing of Python data structures across separate processes and platforms."
 authors = [{ name = "Niklas Rosenstein", email = "rosensteinniklas@gmail.com" }]
 dependencies = []
