@@ -73,10 +73,10 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             tokenize(hasher, x.total_seconds(), header=False)
         case UUID():
             tokenize(hasher, x.int, header=False)
-        case Picklable():
-            tokenize(hasher, x.__getstate__())
         case type():
             hasher.update(fqn(x).encode("utf8"))
+        case Picklable():
+            tokenize(hasher, x.__getstate__())
         case _:
             raise TypeError(f"object of type {fqn(type(x))} is not stable-hashable")
 
