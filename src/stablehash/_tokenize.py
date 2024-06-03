@@ -1,5 +1,6 @@
 import abc
 import struct
+from bisect import insort
 from abc import ABC
 from dataclasses import fields, is_dataclass
 from datetime import date, datetime, time, timedelta
@@ -45,8 +46,19 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             for item in x:
                 tokenize(hasher, item)
         case set() | frozenset():
-            for item in sorted(x):
-                tokenize(hasher, item)
+            # Note: Sets are unordred, but we need a consistent order to produce a stable hash. We cannot assume
+            # that the items in the set are orderable, so we need to sort them by their hash. We may be faced with
+            # a large complex structure for each item, which is why we don't want to hash the object twice. Instead,
+            # we hash the object once, and then add the sorted hashes to the hasher.
+
+            item_hashes = []
+            for item in x:
+                item_hasher = hasher.copy()
+                tokenize(item_hasher, item)
+                insort(item_hashes, item_hasher.digest())
+
+            for item_hash in item_hashes:
+                hasher.update(item_hash)
         case dict():
             for key, value in x.items():
                 tokenize(hasher, key)
@@ -89,3 +101,4 @@ class Picklable(ABC):
 
 class Hasher(Protocol):
     def update(self, __data: bytes) -> None: ...
+    def copy(self) -> "Hasher": ...
