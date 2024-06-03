@@ -12,7 +12,6 @@ class MyDataclass:
 
 
 class Picklable:
-
     def __init__(self, a: int, b: str) -> None:
         self.a = a
         self.b = b

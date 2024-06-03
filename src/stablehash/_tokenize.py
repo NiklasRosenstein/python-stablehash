@@ -17,7 +17,6 @@ def fqn(x: type[Any]) -> str:
 
 
 def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
-
     # Produce an opening/ending token to indicate the type of the object being hashed. This is
     # to minimize the chances that consecutive hashes of multiple objects imitate the hash of a
     # single object (e.g. "abc" vs. "ab" + "c"), as well as encoding the actual type of the object.
@@ -72,14 +71,12 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
 
 
 class Dataclass(DataclassInstance):
-
     @classmethod
     def __subclasshook__(cls, __subclass: type) -> bool:
         return is_dataclass(__subclass)
 
 
 class Picklable(ABC):
-
     @abc.abstractmethod
     def __getstate__(self) -> Any: ...
 
@@ -89,5 +86,4 @@ class Picklable(ABC):
 
 
 class Hasher(Protocol):
-
     def update(self, __data: bytes) -> None: ...
