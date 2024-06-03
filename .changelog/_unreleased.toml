@@ -1,0 +1,5 @@
+[[entries]]
+id = "cedefc31-4ddb-4615-a391-2e6fc1b0ed2c"
+type = "fix"
+description = "Add support for hasing type objects by their type FQN."
+author = "@NiklasRosenstein"

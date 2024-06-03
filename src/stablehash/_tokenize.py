@@ -63,8 +63,10 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             tokenize(hasher, x.int, header=False)
         case Picklable():
             tokenize(hasher, x.__getstate__())
+        case type():
+            hasher.update(fqn(x).encode("utf8"))
         case _:
-            raise TypeError(f"object of type {fqn(type(x))} is not consistent-hashable")
+            raise TypeError(f"object of type {fqn(type(x))} is not stable-hashable")
 
     if header:
         hasher.update(b"]")

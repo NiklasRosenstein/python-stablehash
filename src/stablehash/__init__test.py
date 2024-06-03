@@ -41,3 +41,5 @@ def test__stablehash() -> None:
         stablehash(UUID("00000000-0000-0000-0000-000000000000"), algorithm="md5").hexdigest()
         == "34fa1fac0804eaebe1a8a3adce7cef3f"
     )
+    assert stablehash(int, algorithm="md5").hexdigest() == "21a85b46a16a64f9c58f5402c4c11bf1"
+    assert stablehash(str, algorithm="md5").hexdigest() == "fc1830dca524be291dcda6dbca7bd509"
