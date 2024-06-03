@@ -54,3 +54,4 @@ The following types are supported:
 - `datetime` objects (`datetime`, `date`, `time` and `timedelta`)
 - `uuid.UUID`
 - Picklable objects (e.g. those that implement `__getstate__()`)
+- `type` objects (by their full qualified name)
