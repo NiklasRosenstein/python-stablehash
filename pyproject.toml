@@ -1,15 +1,13 @@
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry]
-name = "stablehash"
+[project]
+name = "python-stablehash"
 version = "0.1.1"
-description = "Stable hashing of Python data structures spanning invokations and platforms. "
-authors = ["Niklas Rosenstein <niklas.rosenstein@helsing.ai>"]
-license = "MIT"
+description = "Stable hashing of Python data structures across separate processes and platforms."
+authors = [{ name = "Niklas Rosenstein", email = "rosensteinniklas@gmail.com" }]
+dependencies = []
+requires-python = ">=3.10"
 readme = "README.md"
-packages = [{ include = "stablehash", from = "src" }]
+license = { text = "MIT" }
+keywords = ["hash", "stable hash", "hashlib", "dataclasses", "python hashing"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -22,46 +20,22 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Utilities"
-]
-keywords = [
-    "hash",
-    "stable hash",
-    "hashlib",
-    "dataclasses",
-    "python hashing",
+    "Topic :: Utilities",
 ]
 
-[tool.poetry.urls]
-"Bug Tracker" = "https://github.com/NiklasRosenstein/python-stablehash/issues"
+[project.urls]
 Repository = "https://github.com/NiklasRosenstein/python-stablehash"
-# Documentation = ""
+Issues = "https://github.com/NiklasRosenstein/python-stablehash/issues"
 
-[tool.poetry.dependencies]
-python = "^3.10"
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
-[tool.poetry.dev-dependencies]
-black = "*"
-flake8 = "*"
-isort = "*"
-mypy = "*"
-pycln = "^2.1.3"
-pytest = "*"
+[tool.pdm]
+distribution = true
 
-[tool.slap]
-typed = true
-
-[tool.slap.test]
-check  = "slap check"
-black  = "black --check src/"
-flake8 = "flake8 src/"
-isort  = "isort --check-only src/"
-mypy   = "dmypy run src/"
-pycln  = "pycln src/ --check"
-pytest = "pytest -vv src/"
-
-[tool.slap.run]
-fmt = "pycln src/ && black src/ && isort src/"
+[tool.pdm.dev-dependencies]
+dev = ["mypy>=1.10.0", "ruff>=0.4.7"]
 
 [tool.mypy]
 python_version = "3.10"
@@ -77,10 +51,5 @@ warn_redundant_casts = true
 warn_unreachable = true
 warn_unused_ignores = true
 
-[tool.isort]
-profile = "black"
-line_length = 120
-combine_as_imports = true
-
-[tool.black]
+[tool.ruff]
 line-length = 120
