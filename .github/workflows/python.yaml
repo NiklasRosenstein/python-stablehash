@@ -14,9 +14,8 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with: { python-version: "${{ matrix.python-version }}" }
-    - run: pipx install pdm
-    - run: pdm install
-    - run: pdm run mypy .
-    - run: pdm run pytest
-    - run: pdm run ruff check
-    - run: pdm run ruff format --check
+    - run: pipx install uv
+    - run: uv run mypy .
+    - run: uv run pytest
+    - run: uv run ruff check
+    - run: uv run ruff format --check

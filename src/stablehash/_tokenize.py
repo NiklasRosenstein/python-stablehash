@@ -32,7 +32,7 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             hasher.update(b"1" if x else b"0")
         case int():
             bits = x.bit_length() // 8 + 1
-            hasher.update(x.to_bytes(bits, "little"))
+            hasher.update(x.to_bytes(bits, "little", signed=True))
         case float():
             hasher.update(struct.pack("f", x))
         case str():
