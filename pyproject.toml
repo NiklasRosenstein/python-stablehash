@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "stablehash"
-version = "0.2.1"
+version = "0.2.2"
 description = "Stable hashing of Python data structures across separate processes and platforms."
 authors = [{ name = "Niklas Rosenstein", email = "rosensteinniklas@gmail.com" }]
 dependencies = []
