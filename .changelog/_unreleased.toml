@@ -1,0 +1,5 @@
+[[entries]]
+id = "e39d39aa-3c5e-400a-b85d-9310bbb8bedd"
+type = "feature"
+description = "Allow passing custom hasher into `stablehash()` constructor"
+author = "@NiklasRosenstein"

@@ -3,7 +3,7 @@ __version__ = "0.2.0"
 import hashlib
 from typing import Any
 
-from ._tokenize import tokenize
+from ._tokenize import tokenize, Hasher
 
 _sentinel = object()
 
@@ -11,14 +11,14 @@ _sentinel = object()
 class stablehash:
     """A fast and stable hash function for Python objects."""
 
-    def __init__(self, data: Any = _sentinel, *, algorithm: str = "blake2b") -> None:
+    def __init__(self, data: Any = _sentinel, *, hasher: Hasher | None = None, algorithm: str = "blake2b") -> None:
         """Create a new :class:`stablehash` instance.
 
         :param data: Data to hash.
         :param algorithm: The hash algorithm to use. Defaults to ``"blake2b"``.
         """
 
-        self._hasher = hashlib.new(algorithm)
+        self._hasher: Hasher = hasher or hashlib.new(algorithm)
         if data is not _sentinel:
             self.update(data)
 
