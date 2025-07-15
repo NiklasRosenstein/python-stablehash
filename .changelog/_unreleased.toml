@@ -1,0 +1,5 @@
+[[entries]]
+id = "bd817162-8936-4af0-bd59-700fae604895"
+type = "improvement"
+description = "Support `os.PathLike` in stable hashing"
+author = "@NiklasRosenstein"

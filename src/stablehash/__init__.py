@@ -3,7 +3,7 @@ __version__ = "0.2.2"
 import hashlib
 from typing import Any
 
-from ._tokenize import tokenize, Hasher
+from ._tokenize import Hasher, tokenize
 
 _sentinel = object()
 

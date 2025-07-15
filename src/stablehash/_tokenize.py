@@ -1,12 +1,14 @@
 import abc
 import struct
-from bisect import insort
 from abc import ABC
+from bisect import insort
 from dataclasses import fields, is_dataclass
 from datetime import date, datetime, time, timedelta
+from os import PathLike, fspath
 from typing import TYPE_CHECKING, Any, Protocol
-from typing_extensions import Buffer
 from uuid import UUID
+
+from typing_extensions import Buffer
 
 if TYPE_CHECKING:
     from _typeshed import DataclassInstance
@@ -78,6 +80,8 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             hasher.update(fqn(x).encode("utf8"))
         case Picklable():
             tokenize(hasher, x.__getstate__())
+        case PathLike():
+            return tokenize(hasher, fspath(x))
         case _:
             raise TypeError(f"object of type {fqn(type(x))} is not stable-hashable")
 

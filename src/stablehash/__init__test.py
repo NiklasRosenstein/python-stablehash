@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta, timezone
+from pathlib import Path
 from uuid import UUID
 
 from stablehash import stablehash
@@ -44,3 +45,4 @@ def test__stablehash() -> None:
     assert stablehash(int, algorithm="md5").hexdigest() == "21a85b46a16a64f9c58f5402c4c11bf1"
     assert stablehash(str, algorithm="md5").hexdigest() == "fc1830dca524be291dcda6dbca7bd509"
     assert stablehash({int, str}, algorithm="md5").hexdigest() == "f4216c5b72f84c0e17bda6f365b99f52"
+    assert stablehash(Path("foo"))
