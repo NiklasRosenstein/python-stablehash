@@ -8,9 +8,9 @@ from os import PathLike, fspath
 from typing import TYPE_CHECKING, Any, Protocol
 from uuid import UUID
 
-from typing_extensions import Buffer
 
 if TYPE_CHECKING:
+    from typing_extensions import Buffer
     from _typeshed import DataclassInstance
 else:
     DataclassInstance = ABC
@@ -108,4 +108,4 @@ class Hasher(Protocol):
     def copy(self) -> "Hasher": ...
     def digest(self) -> bytes: ...
     def hexdigest(self) -> str: ...
-    def update(self, __data: Buffer) -> None: ...
+    def update(self, __data: "Buffer") -> None: ...
