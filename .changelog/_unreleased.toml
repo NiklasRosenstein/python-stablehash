@@ -3,3 +3,12 @@ id = "bd817162-8936-4af0-bd59-700fae604895"
 type = "improvement"
 description = "Support `os.PathLike` in stable hashing"
 author = "@NiklasRosenstein"
+
+[[entries]]
+id = "a5d73f7b-18ed-4fcd-84db-64d3d119c0c5"
+type = "fix"
+description = "add `typing-extensions` to dev dependencies and fix import from the module by moving it into `TYPE_CHECKING` block"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/python-stablehash/issues/9",
+]
