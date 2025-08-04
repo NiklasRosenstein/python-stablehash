@@ -10,15 +10,15 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.x"]
+    env:
+      UV_PYTHON: "${{ matrix.python-version }}"
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with: { python-version: "${{ matrix.python-version }}" }
-    - run: pipx install uv
-    - run: uv run mypy .
-    - run: uv run pytest
-    - run: uv run ruff check
-    - run: uv run ruff format --check
+    - uses: jdx/mise-action@v2
+    - run: tire check
+    - run: tire lint
+    - run: tire fmt --check
+    - run: tire test
 
   publish:
     runs-on: ubuntu-latest
