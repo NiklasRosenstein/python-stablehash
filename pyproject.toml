@@ -33,25 +33,8 @@ Issues = "https://github.com/NiklasRosenstein/python-stablehash/issues"
 
 [tool.uv]
 dev-dependencies = [
-    "mypy>=1.10.0",
-    "ruff>=0.4.7",
-    "pytest>=8.2.1",
     "typing-extensions>=4.12.2",
 ]
 
 [tool.mypy]
 python_version = "3.10"
-explicit_package_bases = true
-mypy_path = ["src"]
-namespace_packages = true
-pretty = true
-show_error_codes = true
-show_error_context = true
-strict = true
-warn_no_return = true
-warn_redundant_casts = true
-warn_unreachable = true
-warn_unused_ignores = true
-
-[tool.ruff]
-line-length = 120
