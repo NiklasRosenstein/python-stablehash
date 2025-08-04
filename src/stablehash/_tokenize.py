@@ -8,10 +8,9 @@ from os import PathLike, fspath
 from typing import TYPE_CHECKING, Any, Protocol
 from uuid import UUID
 
-
 if TYPE_CHECKING:
-    from typing_extensions import Buffer
     from _typeshed import DataclassInstance
+    from typing_extensions import Buffer
 else:
     DataclassInstance = ABC
 

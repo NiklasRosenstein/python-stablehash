@@ -12,3 +12,12 @@ author = "@NiklasRosenstein"
 issues = [
     "https://github.com/NiklasRosenstein/python-stablehash/issues/9",
 ]
+
+[[entries]]
+id = "a1f1b2d0-252b-4270-98a6-709fd4721c1b"
+type = "fix"
+description = "Add `stablehash.__eq__()` and `__ne__()`"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/python-stablehash/issues/7",
+]

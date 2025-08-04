@@ -22,6 +22,20 @@ class stablehash:
         if data is not _sentinel:
             self.update(data)
 
+    def __eq__(self, other: object) -> bool:
+        """Check if two stablehash instances are equal based on their digests."""
+
+        if not isinstance(other, stablehash):
+            return NotImplemented
+        return self._hasher.digest() == other._hasher.digest()
+
+    def __ne__(self, other: object) -> bool:
+        """Check if two stablehash instances are not equal based on their digests."""
+
+        if not isinstance(other, stablehash):
+            return NotImplemented
+        return self._hasher.digest() != other._hasher.digest()
+
     def update(self, x: Any) -> None:
         """Update the hash with the specified object."""
 
