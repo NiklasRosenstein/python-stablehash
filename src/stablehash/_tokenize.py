@@ -62,7 +62,7 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             for item_hash in item_hashes:
                 hasher.update(item_hash)
         case dict():
-            for key, value in x.items():
+            for key, value in sorted(x.items()):
                 tokenize(hasher, key)
                 tokenize(hasher, value)
         case Dataclass():
