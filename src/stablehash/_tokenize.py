@@ -62,9 +62,21 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             for item_hash in item_hashes:
                 hasher.update(item_hash)
         case dict():
-            for key, value in sorted(x.items()):
-                tokenize(hasher, key)
-                tokenize(hasher, value)
+            pair_hashes = []
+            for key, value in x.items():
+                pair_hasher = hasher.copy()
+
+                tokenize(pair_hasher, key)
+                tokenize(pair_hasher, value)
+
+                # Hash to make pairs comparable
+                pair_hashes.append(pair_hasher.digest()) 
+
+            # Sort the hashes to ensure order-independence
+            pair_hashes.sort()  
+
+            for h in pair_hashes:
+                hasher.update(h)
         case Dataclass():
             for field in fields(x):
                 tokenize(hasher, field.name)
