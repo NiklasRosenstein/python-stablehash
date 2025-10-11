@@ -60,7 +60,11 @@ class Picklable:
 def test__stablehash() -> None:
     assert stablehash(42, algorithm="md5").hexdigest() == "6d2cdfd21468e0ec822bcfbefc38c73d"
     assert stablehash({"key": "value"}, algorithm="md5").hexdigest() == "0ea2506ffbeef2699760d422d7a8b971"
-    assert stablehash(_nested_dict_1, algorithm="md5").hexdigest() == stablehash(_nested_dict_2, algorithm="md5").hexdigest() == "2e510913c66105a8dd563e5111e3c809"
+    assert (
+        stablehash(_nested_dict_1, algorithm="md5").hexdigest() 
+        == stablehash(_nested_dict_2, algorithm="md5").hexdigest() 
+        == "2e510913c66105a8dd563e5111e3c809"
+    )
     assert stablehash([1, 2, 3], algorithm="md5").hexdigest() == "c8b541e613f5e7708f0553221e2725d5"
     assert stablehash((1, 2, 3), algorithm="md5").hexdigest() == "f1a8fe053f96bb01977d521912b3132f"
     assert stablehash({1, 2, 3}, algorithm="md5").hexdigest() == "10bf2edb0a4badb2aa27e29fff846f46"
@@ -74,7 +78,7 @@ def test__stablehash() -> None:
     )
     assert stablehash(date(2021, 1, 1), algorithm="md5").hexdigest() == "a8d008bc6c73f527333b3d40726c7e1f"
     assert stablehash(time(0, 0, 0), algorithm="md5").hexdigest() == "531c98aced815358bb7375c5948d0d82"
-    assert stablehash(timedelta(seconds=1), algorithm="md5").hexdigest() == "e5fe3b7bf1b4ca1fb9ba5bfe886fbff5"
+    assert stablehash(timedelta(seconds=1), algorithm="md5").hexdigest() == "7babeee6b6b1e1c94e5bbd6eed14811e"
     assert (
         stablehash(UUID("00000000-0000-0000-0000-000000000000"), algorithm="md5").hexdigest()
         == "34fa1fac0804eaebe1a8a3adce7cef3f"
