@@ -16,6 +16,33 @@ from stablehash import stablehash
 assert stablehash({"key": "value"}, algorithm="md5").hexdigest() == 'd5994850379366e314563ea555532052'
 ```
 
+## Compatibility notes
+
+### Since `0.3.x`
+Hashing semantics are changed for certain inputs to improve stability:
+
+* Dictionaries now hash independent of key insertion order (i.e., equal dicts produce the same digest regardless of the order keys were added).  
+* Serialize floats as IEEE-754 64-bit little-endian (`struct.pack('<d', x)`) to guarantee cross-platform stable digests.  
+
+These changes may cause the digest produced for the same value to **differ from** the `0.2.x` series. The public API is unchanged, but we treat changes that alter produced hashes as breaking from a user's perspective. (See PR [#20](https://github.com/NiklasRosenstein/python-stablehash/pull/20) for background.)
+
+<details>
+
+<summary>
+<b>What should downstream users do?</b>
+</summary>
+
+* If your project depends on exact hash outputs (for example, using them as file identifiers or data fingerprints), either:  
+
+  * pin an **upper bound** to the previous minor series: `stablehash >=0.2.0, <0.3.0`, or  
+  * upgrade to `0.3.x` and **re-generate** your stored hashes.     
+
+</details>
+
+## Versioning policy
+
+This project follows Semantic Versioning where applicable. During initial development (`0.y.z`), the public API should not be considered stable and **breaking changes may occur in a minor bump**. We therefore use the minor version to signal changes that can alter produced digests (semantic changes). Downstream users are encouraged to **specify an upper bound** on the minor version when depending on `0.y.z` releases. 
+
 ## API
 
 ### `stablehash(obj=..., *, algorithm="blake2b")`
