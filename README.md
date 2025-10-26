@@ -13,7 +13,7 @@ default internal hash algorithm is Blake2b, but this can be changed by passing a
 ```python
 from stablehash import stablehash
 
-assert stablehash({"key": "value"}, algorithm="md5").hexdigest() == 'd5994850379366e314563ea555532052'
+assert stablehash({"key": "value"}, algorithm="md5").hexdigest() == "0ea2506ffbeef2699760d422d7a8b971"
 ```
 
 ## Compatibility notes
