@@ -23,6 +23,7 @@ _nested_dict_1 = {
     },
 }
 
+# Same as _nested_dict_1 but with the order of keys in dictionaries shuffled.
 _nested_dict_2 = {
     "complex": {
         frozenset({3, 2, 1}): "frozen",
