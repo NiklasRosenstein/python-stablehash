@@ -36,7 +36,7 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             bits = x.bit_length() // 8 + 1
             hasher.update(x.to_bytes(bits, "little", signed=True))
         case float():
-            hasher.update(struct.pack("f", x))
+            hasher.update(struct.pack("<d", x))
         case str():
             # TODO(@niklas): Is there any way we can grab the actual in-memory representation of the string
             #   instead of encoding it? That should yield significant performance improvements. We could
@@ -62,9 +62,21 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
             for item_hash in item_hashes:
                 hasher.update(item_hash)
         case dict():
+            pair_hashes = []
             for key, value in x.items():
-                tokenize(hasher, key)
-                tokenize(hasher, value)
+                pair_hasher = hasher.copy()
+
+                tokenize(pair_hasher, key)
+                tokenize(pair_hasher, value)
+
+                # Hash to make pairs comparable
+                pair_hashes.append(pair_hasher.digest())
+
+            # Sort the hashes to ensure order-independence
+            pair_hashes.sort()
+
+            for h in pair_hashes:
+                hasher.update(h)
         case Dataclass():
             for field in fields(x):
                 tokenize(hasher, field.name)
