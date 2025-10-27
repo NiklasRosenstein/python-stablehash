@@ -62,8 +62,8 @@ def test__stablehash() -> None:
     assert stablehash(42, algorithm="md5").hexdigest() == "6d2cdfd21468e0ec822bcfbefc38c73d"
     assert stablehash({"key": "value"}, algorithm="md5").hexdigest() == "0ea2506ffbeef2699760d422d7a8b971"
     assert (
-        stablehash(_nested_dict_1, algorithm="md5").hexdigest() 
-        == stablehash(_nested_dict_2, algorithm="md5").hexdigest() 
+        stablehash(_nested_dict_1, algorithm="md5").hexdigest()
+        == stablehash(_nested_dict_2, algorithm="md5").hexdigest()
         == "2e510913c66105a8dd563e5111e3c809"
     )
     assert stablehash([1, 2, 3], algorithm="md5").hexdigest() == "c8b541e613f5e7708f0553221e2725d5"

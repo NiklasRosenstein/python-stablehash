@@ -70,10 +70,10 @@ def tokenize(hasher: "Hasher", x: Any, *, header: bool = True) -> None:
                 tokenize(pair_hasher, value)
 
                 # Hash to make pairs comparable
-                pair_hashes.append(pair_hasher.digest()) 
+                pair_hashes.append(pair_hasher.digest())
 
             # Sort the hashes to ensure order-independence
-            pair_hashes.sort()  
+            pair_hashes.sort()
 
             for h in pair_hashes:
                 hasher.update(h)
