@@ -1,0 +1,5 @@
+[[entries]]
+id = "4df4a0da-62bf-4bfe-a65d-8042ca19367b"
+type = "breaking change"
+description = "fix cross-platform hash stability issues of float and dict types"
+author = "@SomeBottle"
